@@ -14,11 +14,17 @@ export const CivDropdown = ({ civs, selected, target, replicant }: CivDropdownPr
     const [replicantValue, set_replicantValue] = useReplicant<Array<any>>(replicant, [{value: '', label: ''}]);
 
     const handleChange = useCallback((selectedOption) => {
-        let _array = replicantValue
-        console.log(replicant)
-        console.log(replicantValue)
-        _array[target] = selectedOption
-        set_replicantValue(_array)
+        //let _array = replicantValue
+        //console.log(replicant)
+        //console.log(replicantValue)
+        //_array[target] = selectedOption
+        //set_replicantValue(_array)
+
+        replicantValue[target] = selectedOption
+
+        //const newRepValue = replicantValue.slice(0)
+        //newRepValue[target] = selectedOption
+        //set_replicantValue(newRepValue)
     }, [replicantValue])
 
 

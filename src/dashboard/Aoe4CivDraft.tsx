@@ -50,7 +50,7 @@ export function Aoe4CivDraft() {
 		let _array = []
 		for (let i = 0; i < leftBansCount; i++) {
 			//@ts-ignore
-			_array.push(<CivDropdown civs={options} target={i} replicant={'leftBans'} />)
+			_array.push(<CivDropdown civs={options} target={i} replicant={'leftBans'}/>)
 		}
 		set_leftBansDropdowns(_array);
 	}, [leftBansCount, leftBans])
@@ -84,6 +84,13 @@ export function Aoe4CivDraft() {
 		}
 		set_rightPicksDropdowns(_array);
 	}, [rightPicksCount, rightPicks])
+
+	useEffect(() => {
+		set_leftBans([{value: '', label: ''}])
+		set_rightBans([{value: '', label: ''}])
+		set_leftPicks([{value: '', label: ''}])
+		set_rightPicks([{value: '', label: ''}])
+	},[])
 
 	return (
 		<>
