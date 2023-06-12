@@ -7,9 +7,10 @@ type CivDropdownProps = {
   civs: ValueLabelPair[];
   target: number;
   replicant: string;
+  value?: ValueLabelPair;
 };
 
-export const CivDropdown = ({ civs, target, replicant }: CivDropdownProps) => {
+export const CivDropdown = ({ civs, target, replicant, value }: CivDropdownProps) => {
   const [replicantValue, set_replicantValue] = useReplicant<ValueLabelPair[]>(replicant, [{ value: '', label: '' }]);
 
   const handleChange = useCallback(
@@ -24,7 +25,7 @@ export const CivDropdown = ({ civs, target, replicant }: CivDropdownProps) => {
 
   return (
     <div>
-      <Select className="civDropdown" options={civs} onChange={handleChange} />
+      <Select className="civDropdown" options={civs} onChange={handleChange} value={value}/>
     </div>
   );
 };

@@ -44,6 +44,27 @@ export function Aoe4CivDraft() {
     set_rightName(event.target.rightName.value)
   }
 
+  const swapTeams = (event: any) => {
+    event.preventDefault();
+    console.log("Swapping teams around")
+
+    set_leftName(rightName)
+    set_rightName(leftName)
+
+    set_leftBans(rightBans)
+    set_rightBans(leftBans)
+
+    set_leftBansCount(rightBansCount)
+    set_rightBansCount(leftBansCount)
+
+    set_leftPicks(rightPicks)
+    set_rightPicks(leftPicks)
+
+    set_leftPicksCount(rightPicksCount)
+    set_rightPicksCount(leftPicksCount)
+
+  }
+
   return (
     <form onSubmit={handleSubmit}>
       <div className='leftSideWrapper flex flex-row justify-center py-4'>
@@ -66,7 +87,7 @@ export function Aoe4CivDraft() {
             }}
           />
           {new Array(leftBansCount).fill(undefined).map((_, i) => (
-            <CivDropdown key={i} civs={options} target={i} replicant={'leftBans'} />
+            <CivDropdown key={i} civs={options} target={i} replicant={'leftBans'} value={leftBans[i]}/>
           ))}
         </div>
 
@@ -83,12 +104,18 @@ export function Aoe4CivDraft() {
             }}
           />
           {new Array(leftPicksCount).fill(undefined).map((_, i) => (
-            <CivDropdown key={i} civs={options} target={i} replicant={'leftPicks'} />
+            <CivDropdown key={i} civs={options} target={i} replicant={'leftPicks'} value={leftPicks[i]}/>
           ))}
         </div>
       </div>
 
-      <hr />
+      <div className='flex flex-row justify-center w-full'>
+        <hr className='m-8 w-1/3'/>
+        <button onClick={swapTeams} className="swapButton w-36" name="swapTeams">
+          Swap Teams
+        </button>
+        <hr className='m-8 w-1/3'/>
+      </div>
 
       <div className='rightSideWrapper flex flex-row justify-center py-4'>
 
@@ -110,7 +137,7 @@ export function Aoe4CivDraft() {
             }}
           />
           {new Array(rightBansCount).fill(undefined).map((_, i) => (
-            <CivDropdown key={i} civs={options} target={i} replicant={'rightBans'} />
+            <CivDropdown key={i} civs={options} target={i} replicant={'rightBans'} value={rightBans[i]}/>
           ))}
         </div>
 
@@ -127,13 +154,13 @@ export function Aoe4CivDraft() {
             }}
           />
           {new Array(rightPicksCount).fill(undefined).map((_, i) => (
-            <CivDropdown key={i} civs={options} target={i} replicant={'rightPicks'} />
+            <CivDropdown key={i} civs={options} target={i} replicant={'rightPicks'} value={rightPicks[i]}/>
           ))}
         </div>
 
       </div>
 
-      <hr/>
+      <hr />
 
       <input type="submit" className='py-4 px-32' />
 
