@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import Select, { type SingleValue } from 'react-select';
 import { useReplicant } from 'use-nodecg';
-import { type ValueLabelPair } from '../../types/schemas/leftBans';
+import { type ValueLabelPair } from '../../types/schemas/index';
 
 type CivDropdownProps = {
   civs: ValueLabelPair[];

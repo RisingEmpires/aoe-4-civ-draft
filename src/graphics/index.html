@@ -1,19 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<style>
-			body {
-				font-family: sans-serif;
-			}
 
-			.monospace {
-				font-family: monospace;
-			}
-		</style>
-	</head>
-	<body>
-		<div id="root"></div>
-		<script type="module" src="./index-bootstrap.tsx"></script>
-	</body>
+<head>
+	<meta charset="UTF-8" />
+	<style>
+		body {
+			font-family: sans-serif;
+		}
+
+		.monospace {
+			font-family: monospace;
+		}
+
+		.civBannedFilter {
+			filter: brightness(40%);
+		}
+
+		.civBanned {
+			width: 60px;
+			padding: 5px 0px;
+		}
+
+		.civPicked {
+			width: 140px;
+			padding: 5px 0px;
+		}
+
+		.borderer {
+			border: 1px solid red;
+		}
+
+		.leftBans {
+			transform: translate(-50%, -50%);
+			display: flex;
+			flex-direction: column;
+			position: absolute;
+			top: 75%;
+			left: 32%; 
+		}
+
+		.rightBans {
+			transform: translate(50%, -50%);
+			display: flex;
+			flex-direction: column;
+			position: absolute;
+			top: 75%;
+			right: 32%; 
+		}
+
+		.leftPicks {
+			transform: translate(-50%, -50%);
+			display: flex;
+			flex-direction: column;
+			position: absolute;
+			top: 75%;
+			left: 40%;
+		}
+
+		.rightPicks {
+			transform: translate(50%, -50%);
+			display: flex;
+			flex-direction: column;
+			position: absolute;
+			top: 75%;
+			right: 40%;
+		}
+
+		.rightName {
+			transform: translate(50%, -50%);
+			font-size: 300%;
+			position: absolute;
+			color: white;
+			top: 55%;
+			right: 38%;
+		}
+
+		.leftName {
+			transform: translate(-50%, -50%);
+			font-size: 300%;
+			position: absolute;
+			color: white;
+			top: 55%;
+			left: 38%;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="root"></div>
+	<script type="module" src="./index-bootstrap.tsx"></script>
+</body>
+
 </html>
