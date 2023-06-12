@@ -24,7 +24,7 @@
       {
         "name": "aoe-4-civ-draft",
         "title": "Aoe 4 Civ Draft",
-        "width": 8,
+        "width": 6,
         "file": "aoe-4-civ-draft.html",
         "headerColor": "#525F78"
       }
@@ -91,6 +91,7 @@
     "concurrently": "*",
     "glob": "*",
     "nodemon": "*",
+    "tailwindcss": "^3.3.2",
     "trash-cli": "*",
     "typescript": "*"
   },

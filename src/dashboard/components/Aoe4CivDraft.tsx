@@ -46,84 +46,96 @@ export function Aoe4CivDraft() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div>
-        <label>Left Side</label>
-        <input type="text" placeholder="Left Side Name" name="leftName" defaultValue={leftName} />
+      <div className='leftSideWrapper flex flex-row justify-center py-4'>
 
-        <h1>Left Banned Civs</h1>
-        <input
-          type="number"
-          min={0}
-          max={9}
-          value={leftBansCount ?? 0}
-          onChange={(event) => {
-            set_leftBansCount(parseInt(event.target.value, 10));
-          }}
-        />
-        {new Array(leftBansCount).fill(undefined).map((_, i) => (
-          <CivDropdown key={i} civs={options} target={i} replicant={'leftBans'} />
-        ))}
-        <br /> <br />
+        <div className='px-5'>
+          <label className='text-center'>Left Side Name</label>
+          <input type="text" placeholder="Left Side Name" name="leftName" defaultValue={leftName} />
+        </div>
+
+        <div className='w-1/2 flex flex-col justify-center text-center px-5 self-start'>
+          <h1>Left Banned Civs</h1>
+          <input
+            className='w-1/4 m-auto text-center'
+            type="number"
+            min={0}
+            max={9}
+            value={leftBansCount ?? 0}
+            onChange={(event) => {
+              set_leftBansCount(parseInt(event.target.value, 10));
+            }}
+          />
+          {new Array(leftBansCount).fill(undefined).map((_, i) => (
+            <CivDropdown key={i} civs={options} target={i} replicant={'leftBans'} />
+          ))}
+        </div>
+
+        <div className='w-1/2 flex flex-col justify-center text-center px-5 self-start'>
+          <h1>Left Picked Civs</h1>
+          <input
+            className='w-1/4 m-auto text-center'
+            type="number"
+            min={1}
+            max={9}
+            value={leftPicksCount ?? 0}
+            onChange={(event) => {
+              set_leftPicksCount(parseInt(event.target.value, 10));
+            }}
+          />
+          {new Array(leftPicksCount).fill(undefined).map((_, i) => (
+            <CivDropdown key={i} civs={options} target={i} replicant={'leftPicks'} />
+          ))}
+        </div>
       </div>
 
-      <div>
-        <h1>Left Picked Civs</h1>
-        <input
-          type="number"
-          min={0}
-          max={9}
-          value={leftPicksCount ?? 0}
-          onChange={(event) => {
-            set_leftPicksCount(parseInt(event.target.value, 10));
-          }}
-        />
-        {new Array(leftPicksCount).fill(undefined).map((_, i) => (
-          <CivDropdown key={i} civs={options} target={i} replicant={'leftPicks'} />
-        ))}
-        <br />
-        <br />
+      <hr />
+
+      <div className='rightSideWrapper flex flex-row justify-center py-4'>
+
+        <div className='px-5'>
+          <label>Right Side Name</label>
+          <input type="text" placeholder="Right Side Name" name="rightName" defaultValue={rightName} />
+        </div>
+
+        <div className='w-1/2 flex flex-col justify-center text-center px-5 self-start'>
+          <h1>Right Banned Civs</h1>
+          <input
+            className='w-1/4 m-auto text-center'
+            type="number"
+            min={0}
+            max={9}
+            value={rightBansCount ?? 0}
+            onChange={(event) => {
+              set_rightBansCount(parseInt(event.target.value, 10));
+            }}
+          />
+          {new Array(rightBansCount).fill(undefined).map((_, i) => (
+            <CivDropdown key={i} civs={options} target={i} replicant={'rightBans'} />
+          ))}
+        </div>
+
+        <div className='w-1/2 flex flex-col justify-center text-center px-5 self-start'>
+          <h1>Right Picked Civs</h1>
+          <input
+            className='w-1/4 m-auto text-center'
+            type="number"
+            min={1}
+            max={9}
+            value={rightPicksCount ?? 0}
+            onChange={(event) => {
+              set_rightPicksCount(parseInt(event.target.value, 10));
+            }}
+          />
+          {new Array(rightPicksCount).fill(undefined).map((_, i) => (
+            <CivDropdown key={i} civs={options} target={i} replicant={'rightPicks'} />
+          ))}
+        </div>
+
       </div>
 
-      <div>
+      <hr/>
 
-        <label>Right Side</label>
-        <input type="text" placeholder="Right Side Name" name="rightName" defaultValue={rightName} />
-
-        <h1>Right Picked Civs</h1>
-        <input
-          type="number"
-          min={0}
-          max={9}
-          value={rightPicksCount ?? 0}
-          onChange={(event) => {
-            set_rightPicksCount(parseInt(event.target.value, 10));
-          }}
-        />
-        {new Array(rightPicksCount).fill(undefined).map((_, i) => (
-          <CivDropdown key={i} civs={options} target={i} replicant={'rightPicks'} />
-        ))}
-        <br />
-        <br />
-      </div>
-
-      <div>
-        <h1>Right Banned Civs</h1>
-        <input
-          type="number"
-          min={0}
-          max={9}
-          value={rightBansCount ?? 0}
-          onChange={(event) => {
-            set_rightBansCount(parseInt(event.target.value, 10));
-          }}
-        />
-        {new Array(rightBansCount).fill(undefined).map((_, i) => (
-          <CivDropdown key={i} civs={options} target={i} replicant={'rightBans'} />
-        ))}
-        <br /> <br />
-      </div>
-
-      <input type="submit" />
+      <input type="submit" className='py-4 px-32' />
 
     </form>
   );
