@@ -67,7 +67,8 @@
     "build:extension": "node scripts/build.mjs --skipBrowser --extension",
     "watch": "node scripts/build.mjs --all --watch",
     "watch:browser": "node scripts/build.mjs --dashboard --graphics --skipExtension --watch",
-    "dev": "concurrently --kill-others \"npm run watch:browser\" \"nodemon\"",
+    "watch:schemas": "node scripts/build.mjs --schemas --watch",
+    "dev": "concurrently --kill-others \"npm run watch:schemas\" \"npm run watch:browser\" \"nodemon\"",
     "generate-schema-types": "trash src/types/schemas && nodecg schema-types"
   },
   "dependencies": {
@@ -75,7 +76,6 @@
     "@types/react-dom": "*",
     "react": "*",
     "react-dom": "*",
-    "react-numeric-input": "^2.2.3",
     "react-select": "^5.7.3",
     "ts-node": "*",
     "use-nodecg": "^0.4.1-2"
@@ -87,6 +87,7 @@
     "@parcel/reporter-cli": "*",
     "@parcel/validator-typescript": "*",
     "@types/node": "*",
+    "chokidar": "^3.5.3",
     "concurrently": "*",
     "glob": "*",
     "nodemon": "*",
