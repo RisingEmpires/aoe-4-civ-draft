@@ -9,8 +9,11 @@ type CivDisplayProps = {
 
 export const CivDisplay = ({ civ, banned, sniped }: CivDisplayProps) => {
     //TODO add a slash over the Civ image to highlight it was banned, in addition to fading the image
-    //{banned ? <a className='banned'>╲</a> : ''}
+    //
     return (
-        <img src={civ?.value} className={banned ? 'civBanned civBannedFilter' : 'civPicked'} />
+        <div className='civContainer'>
+            <img src={civ?.value} className={banned ? 'civBanned civBannedFilter' : 'civPicked'} />
+            {banned ? <div className='banned'>╲</div> : ''}
+        </div>
     )
 }
