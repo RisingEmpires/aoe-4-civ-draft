@@ -7,6 +7,13 @@ body {
     font-family: sans-serif;
 }
 
+input[type=text] {
+    color:black;
+}
+input[type=number] {
+    color:black;
+}
+
 .monospace {
     font-family: monospace;
 }
