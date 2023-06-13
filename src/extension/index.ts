@@ -1,5 +1,6 @@
 import type NodeCG from '@nodecg/types';
 import type { ValueLabelPair } from '../types/schemas/index';
+import { klona } from 'klona';
 
 //Convert from simple name to ValueLabelPair for use in Dashboard and Graphics
 let civMap = new Map<string, ValueLabelPair>([
@@ -196,10 +197,12 @@ module.exports = function (nodecg: NodeCG.ServerAPI) {
 		switch (presetId) {
 			// RE 2v2 V3
 			case 'memHU':
-			// Warchief Club v3
+			// Warchief Club v3 & LEL
 			case 'byxel':
+			// Warchief Club v3 (trial)
+			case 'lWygK':
 				return 'civs'
-
+			
 			// REL S2 Map Draft
 			case 'KGDHa':
 				return 'maps'
@@ -225,21 +228,24 @@ module.exports = function (nodecg: NodeCG.ServerAPI) {
 			let _leftBansCount = 0
 			//Check if the value exists, can happend depending on how the draft
 			if (civDraft.team1?.civs.bans) {
+				let _civMap = klona(civMap)
 				//Add to the count depending on the length
 				_leftBansCount += civDraft.team1?.civs.bans?.length
 				//For each civ that was banned, push it in the format that Dashboard and Graphics support (ValueLabelPair)
 				civDraft.team1?.civs.bans.forEach((element: any, i: string | number) => {
-					_leftBans.push(civMap.get(element))
+					_leftBans.push(_civMap.get(element))
 				});
 			}
 			//Check if some civs from the other side was sniped, meaning left side can't play it
 			//At some point we could probably figure out how to pass a proper value so that in the Graphics it's highlighted it was sniped and not banned
 			if (civDraft.team2?.civs.sniped) {
+				//A given object cannot belong to multiple Replicants. So need to do deep clone
+				let _civMap = klona(civMap)
 				//Add to the count depending on length
 				_leftBansCount += civDraft.team2.civs.sniped?.length
 				//For each civ that was sniped on the opponents team, add to the banned array
 				civDraft.team2?.civs.sniped.forEach((element: any, i: string | number) => {
-					_leftBans.push(civMap.get(element))
+					_leftBans.push(_civMap.get(element))
 				});
 			}
 
@@ -254,15 +260,17 @@ module.exports = function (nodecg: NodeCG.ServerAPI) {
 			//Set right side Bans Count
 			let _rightBansCount = 0
 			if (civDraft.team2?.civs.bans) {
+				let rightBansMap = klona(civMap)
 				_rightBansCount += civDraft.team2?.civs.bans?.length
 				civDraft.team2?.civs.bans.forEach((element: any, i: string | number) => {
-					_rightBans.push(civMap.get(element))
+					_rightBans.push(rightBansMap.get(element))
 				});
 			}
 			if (civDraft.team1?.civs.sniped) {
+				let _civMap = klona(civMap)
 				_rightBansCount += civDraft.team1.civs.sniped?.length
 				civDraft.team1?.civs.sniped.forEach((element: any, i: string | number) => {
-					_rightBans.push(civMap.get(element))
+					_rightBans.push(_civMap.get(element))
 				});
 			}
 
@@ -299,13 +307,15 @@ module.exports = function (nodecg: NodeCG.ServerAPI) {
 			let rightPicks = nodecg.Replicant('rightPicks')
 
 			civDraft.team1.civs.picks.forEach((element: any) => {
+				let _civMap = klona(civMap)
 				console.log(element)
-				_leftPicks.push(civMap.get(element))
+				_leftPicks.push(_civMap.get(element))
 			})
 
 			civDraft.team2.civs.picks.forEach((element: any) => {
+				let _civMap = klona(civMap)
 				console.log(element)
-				_rightPicks.push(civMap.get(element))
+				_rightPicks.push(_civMap.get(element))
 			})
 
 			leftPicks.value = _leftPicks;
