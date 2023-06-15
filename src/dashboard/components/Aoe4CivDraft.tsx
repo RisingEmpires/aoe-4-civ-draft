@@ -181,7 +181,7 @@ export function Aoe4CivDraft() {
 
         <hr />
 
-        <input type="submit" className='py-4 px-32' />
+        <input type="submit" value="Update Team Names" className='py-4 px-32 w-1/3' />
 
       </form>
     </div>
