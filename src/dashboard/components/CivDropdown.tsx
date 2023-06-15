@@ -25,7 +25,7 @@ export const CivDropdown = ({ civs, target, replicant, value }: CivDropdownProps
 
   return (
     <div>
-      <Select className="civDropdown" options={civs} onChange={handleChange} value={value}/>
+      <Select className="civDropdown text-black" options={civs} onChange={handleChange} value={value}/>
     </div>
   );
 };
