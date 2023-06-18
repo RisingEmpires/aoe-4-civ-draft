@@ -18,12 +18,37 @@
 
 		.civBanned {
 			width: 60px;
-			padding: 5px 0px;
+			margin: 5px 0px;
+			border: 2px solid #0000;
+			border-radius: 4%;
+			height: 100%;
+			background: linear-gradient(#191212, #191212) padding-box, linear-gradient(var(--angle),
+					#07070700,
+					#ff2828) border-box;
+			animation: 8s rotate linear infinite;
+		}
+
+		@keyframes rotate {
+			to {
+				--angle: 360deg;
+			}
+		}
+
+		@property --angle {
+			syntax: "<angle>";
+			initial-value: 0deg;
+			inherits: false;
 		}
 
 		.civPicked {
 			width: 140px;
-			padding: 5px 0px;
+			margin: 5px 0px;
+			border: 2px solid #0000;
+			border-radius: 4%;
+			background: linear-gradient(#191212, #191212) padding-box, linear-gradient(var(--angle),
+					#9c683b,
+					#FFD700) border-box;
+			animation: 8s rotate linear infinite;
 		}
 
 		.borderer {

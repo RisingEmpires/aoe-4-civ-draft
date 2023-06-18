@@ -10,16 +10,16 @@ export function Aoe4CivDraft() {
   const [civs, set_civs] = useReplicant<NodeCG.AssetFile[]>('assets:civs', []);
 
   // Could probably have 1 array instead of 2 replicants?
-  const [leftBans, set_leftBans] = useReplicant<ValueLabelPair[]>('leftBans', []);
+  const [leftBans, set_leftBans] = useReplicant<ValueLabelPair[]>('leftBans', [{ value: '', label: '' }]);
   const [leftBansCount, set_leftBansCount] = useReplicant<number>('leftBansCount', 1);
 
-  const [leftPicks, set_leftPicks] = useReplicant<ValueLabelPair[]>('leftPicks', []);
+  const [leftPicks, set_leftPicks] = useReplicant<ValueLabelPair[]>('leftPicks', [{ value: '', label: '' }]);
   const [leftPicksCount, set_leftPicksCount] = useReplicant<number>('leftPicksCount', 1);
 
-  const [rightPicks, set_rightPicks] = useReplicant<ValueLabelPair[]>('rightPicks', []);
+  const [rightPicks, set_rightPicks] = useReplicant<ValueLabelPair[]>('rightPicks', [{ value: '', label: '' }]);
   const [rightPicksCount, set_rightPicksCount] = useReplicant<number>('rightPicksCount', 1);
 
-  const [rightBans, set_rightBans] = useReplicant<ValueLabelPair[]>('rightBans', []);
+  const [rightBans, set_rightBans] = useReplicant<ValueLabelPair[]>('rightBans', [{ value: '', label: '' }]);
   const [rightBansCount, set_rightBansCount] = useReplicant<number>('rightBansCount', 1);
 
   const [leftName, set_leftName] = useReplicant<string>('leftName', '');
@@ -75,10 +75,10 @@ export function Aoe4CivDraft() {
 
   return (
     <div>
-      <form className='px-8' onSubmit={getDraft}>
+      <form style={{padding:'0 2rem'}} onSubmit={getDraft}>
         <h1>Import Draft from aoe2cm.net</h1>
-        <div className='flex flex-row'>
-          <input type="text" placeholder="aoe2cm.net/" name="aoe2cmDraft" className='w-3/5' />
+        <div style={{display:'flex', flexDirection: 'row'}}>
+          <input type="text" placeholder="aoe2cm.net/" name="aoe2cmDraft" style={{width:'60%'}}/>
           <div className='px-16 w-2/5'>
             <input type="submit" />
           </div>
@@ -181,7 +181,7 @@ export function Aoe4CivDraft() {
 
         <hr />
 
-        <input type="submit" value="Update Team Names" className='py-4 px-32 w-1/3' />
+        <input type="submit" value="Update Team Names" className='py-4 px-32 w-1/3'/>
 
       </form>
     </div>
