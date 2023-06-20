@@ -32,13 +32,7 @@ jobs:
         run: |
           npm run build --if-present --skipLibCheck
           zip -r aoe-4-civ-draft.zip package.json package-lock.json dashboard extension graphics README.md LICENSE node_modules types
-
-      - name: Build Changelog
-        id: github_release
-        uses: mikepenz/release-changelog-builder-action@main
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+          
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
