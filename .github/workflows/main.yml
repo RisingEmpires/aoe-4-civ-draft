@@ -6,6 +6,8 @@ name: Build & Release
 on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+  
+  push:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -32,7 +34,6 @@ jobs:
         run: |
           npm run build --if-present --skipLibCheck
           zip -r aoe-4-civ-draft.zip package.json package-lock.json dashboard extension graphics README.md LICENSE node_modules types
-          
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -41,7 +42,6 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: ${{ github.ref }}
-          body: ${{steps.github_release.outputs.changelog}}
 
       - name: Upload Release Asset
         id: upload-release-asset 
