@@ -76,7 +76,7 @@
     "@types/react-dom": "*",
     "klona": "^2.0.6",
     "nodecg": "^2.1.8",
-    "nodecg-cli": "^8.6.6",
+    "nodecg-cli": "^8.6.8",
     "react": "*",
     "react-dom": "*",
     "react-select": "^5.7.3",
