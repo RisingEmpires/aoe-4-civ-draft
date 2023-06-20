@@ -92,7 +92,7 @@
     "@types/node": "*",
     "chokidar": "^3.5.3",
     "concurrently": "*",
-    "glob": "*",
+    "glob": "^10.2.7",
     "nodemon": "*",
     "tailwindcss": "^3.3.2",
     "trash-cli": "*",
