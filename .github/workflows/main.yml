@@ -33,12 +33,12 @@ jobs:
       - name: Build bundle
         run: |
           npm run build --if-present --skipLibCheck
-          zip -r aoe-4-civ-draft.zip package.json dashboard extension graphics README.md LICENSE
+          zip -r aoe-4-civ-draft.zip package.json node_modules package-lock.json dashboard extension graphics README.md LICENSE
 
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "v1.0.0"
+          automatic_release_tag: "v1.1.0"
           prerelease: false
           title: "Development Build"
           files: |
