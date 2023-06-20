@@ -33,7 +33,7 @@ jobs:
       - name: Build bundle
         run: |
           npm run build --if-present --skipLibCheck
-          zip -r aoe-4-civ-draft.zip package.json package-lock.json dashboard extension graphics README.md LICENSE node_modules types
+          zip -r aoe-4-civ-draft.zip package.json package-lock.json dashboard extension graphics README.md LICENSE
 
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
