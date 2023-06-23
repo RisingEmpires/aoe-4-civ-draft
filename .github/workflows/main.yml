@@ -34,6 +34,7 @@ jobs:
         run: |
           npm run build --if-present --skipLibCheck
           zip -r aoe-4-civ-draft.zip package.json node_modules package-lock.json dashboard extension graphics README.md LICENSE
+          tar -cvf aoe-4-civ-draft.tar package.json node_modules package-lock.json dashboard extension graphics README.md LICENSE
 
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
@@ -43,3 +44,4 @@ jobs:
           title: "Development Build"
           files: |
             *.zip
+            *.tar
