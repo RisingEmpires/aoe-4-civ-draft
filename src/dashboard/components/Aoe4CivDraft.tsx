@@ -3,6 +3,7 @@ import { useReplicant } from 'use-nodecg';
 import { CivDropdown } from './CivDropdown';
 import type { ValueLabelPair } from '../../types/schemas/index';
 import { NodeCG } from '@nodecg/types/types/nodecg';
+import { Tooltip as ReactTooltip } from "react-tooltip";
 
 interface DropdownOption {
   value: string;
@@ -35,6 +36,10 @@ export function Aoe4CivDraft() {
   const [rightSideIcon, set_rightSideIcon] = useReplicant<DropdownOption>('rightSideIcon', { value: '', label: '' }, { namespace: 'aoe-4-team-games' });
 
   const [importNamesFromDraft, set_importNamesFromDraft] = useReplicant<boolean>('importNamesFromDraft', true);
+  const [updateDraftOnImport, set_updateDraftOnImport] = useReplicant<boolean>('updateDraftOnImport', true);
+
+  //State of this doesn't matter. We just need it to be updated for useEffect in the graphics to be updated
+  const [updateDraft, set_updateDraft] = useReplicant<boolean>('updateDraft', true);
 
   // Set the options in the dropdown menu to avaliable civs from /assets/aoe4-civ-draft/civ
   useEffect(() => {
@@ -91,6 +96,8 @@ export function Aoe4CivDraft() {
     let tempIcon = leftSideIcon
     set_leftSideIcon(rightSideIcon)
     set_rightSideIcon(tempIcon)
+
+    f_updateDraft(null)
   }
 
   const resetDraft = (event: any) => {
@@ -106,18 +113,33 @@ export function Aoe4CivDraft() {
     set_leftBansCount(0)
     set_rightBansCount(0)
 
-    set_leftPicks([{value: "/assets/aoe-4-civ-draft/civs/Random.png", label: "Random"}])
-    set_rightPicks([{value: "/assets/aoe-4-civ-draft/civs/Random.png", label: "Random"}])
+    set_leftPicks([{ value: "/assets/aoe-4-civ-draft/civs/Random.png", label: "Random" }])
+    set_rightPicks([{ value: "/assets/aoe-4-civ-draft/civs/Random.png", label: "Random" }])
 
     set_leftPicksCount(1)
     set_rightPicksCount(1)
+
+    f_updateDraft(null)
+  }
+
+  const f_updateDraft = (event: any) => {
+    if (event) event.preventDefault();
+    console.log("Updating Draft")
+
+    set_updateDraft(!updateDraft)
   }
 
   return (
     <div>
-      <div>
-        <label>Import Names From Draft</label>
-        <input type='checkbox' checked={importNamesFromDraft} onChange={(() => set_importNamesFromDraft(!importNamesFromDraft))} />
+      <div className='flex flex-col'>
+        <div>
+          <label>Import Names From Draft</label>
+          <input type='checkbox' checked={importNamesFromDraft} onChange={(() => set_importNamesFromDraft(!importNamesFromDraft))} />
+        </div>
+        <div>
+          <label>Update Draft on Import</label>
+          <input type='checkbox' checked={updateDraftOnImport} onChange={(() => set_updateDraftOnImport(!updateDraftOnImport))} />
+        </div>
       </div>
 
       <form style={{ padding: '0 2rem' }} onSubmit={getDraft}>
@@ -125,7 +147,7 @@ export function Aoe4CivDraft() {
         <div style={{ display: 'flex', flexDirection: 'row' }}>
           <input type="text" placeholder="aoe2cm.net/" name="aoe2cmDraft" style={{ width: '60%' }} />
           <div className='px-16 w-2/5'>
-            <input type="submit" />
+            <input type="submit" value={"Import Draft"} />
           </div>
         </div>
       </form>
@@ -229,7 +251,12 @@ export function Aoe4CivDraft() {
 
         <hr />
 
-        <input type="submit" value="Update Team Names" className='py-4 px-32 w-1/3' />
+        <div className='updateDiv'>
+          <button onClick={f_updateDraft} className="updateDraft w-1/3" name="updateDraft">
+            Update Draft Graphics
+          </button>
+
+        </div>
 
       </form>
     </div>

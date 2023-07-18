@@ -325,6 +325,9 @@ module.exports = function (nodecg: NodeCG.ServerAPI) {
 
 			//Set Names 
 			let importNamesFromDraft = nodecg.Replicant('importNamesFromDraft')
+			let updateDraftOnImport = nodecg.Replicant('updateDraftOnImport')
+			let updateDraft = nodecg.Replicant('updateDraft')
+
 			
 			if(importNamesFromDraft.value == true) {
 				let _leftName = nodecg.Replicant('leftName')
@@ -332,8 +335,13 @@ module.exports = function (nodecg: NodeCG.ServerAPI) {
 
 				_leftName.value = civDraft.team1.name
 				_rightName.value = civDraft.team2.name
-
 			}
+
+			if(updateDraftOnImport.value == true) {
+				console.log("Updating draft aswell")
+				updateDraft.value = !updateDraft.value
+			}
+
 		}
 
 	})
