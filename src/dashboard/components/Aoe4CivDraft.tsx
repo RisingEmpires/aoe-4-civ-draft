@@ -5,8 +5,8 @@ import type { ValueLabelPair } from '../../types/schemas/index';
 import { NodeCG } from '@nodecg/types/types/nodecg';
 
 interface DropdownOption {
-	value: string;
-	label: string;
+  value: string;
+  label: string;
 }
 
 export function Aoe4CivDraft() {
@@ -32,8 +32,9 @@ export function Aoe4CivDraft() {
 
   //Used if you have the Aoe-4-team-games
   const [leftSideIcon, set_leftSideIcon] = useReplicant<DropdownOption>('leftSideIcon', { value: '', label: '' }, { namespace: 'aoe-4-team-games' });
-	const [rightSideIcon, set_rightSideIcon] = useReplicant<DropdownOption>('rightSideIcon', { value: '', label: '' }, { namespace: 'aoe-4-team-games' });
+  const [rightSideIcon, set_rightSideIcon] = useReplicant<DropdownOption>('rightSideIcon', { value: '', label: '' }, { namespace: 'aoe-4-team-games' });
 
+  const [importNamesFromDraft, set_importNamesFromDraft] = useReplicant<boolean>('importNamesFromDraft', true);
 
   // Set the options in the dropdown menu to avaliable civs from /assets/aoe4-civ-draft/civ
   useEffect(() => {
@@ -66,32 +67,43 @@ export function Aoe4CivDraft() {
     event.preventDefault();
     console.log("Swapping teams around")
 
+
+    let tempName = leftName
     set_leftName(rightName)
-    set_rightName(leftName)
+    set_rightName(tempName)
 
+    let tempBans = leftBans
     set_leftBans(rightBans)
-    set_rightBans(leftBans)
+    set_rightBans(tempBans)
 
+    let tempBansCount = leftBansCount
     set_leftBansCount(rightBansCount)
-    set_rightBansCount(leftBansCount)
+    set_rightBansCount(tempBansCount)
 
+    let tempPicks = leftPicks
     set_leftPicks(rightPicks)
-    set_rightPicks(leftPicks)
+    set_rightPicks(tempPicks)
 
+    let tempPicksCount = leftPicksCount
     set_leftPicksCount(rightPicksCount)
-    set_rightPicksCount(leftPicksCount)
+    set_rightPicksCount(tempPicksCount)
 
     let tempIcon = leftSideIcon
     set_leftSideIcon(rightSideIcon)
-    set_rightSideIcon(leftSideIcon)
+    set_rightSideIcon(tempIcon)
   }
 
   return (
     <div>
-      <form style={{padding:'0 2rem'}} onSubmit={getDraft}>
+      <div>
+        <label>Import Names From Draft</label>
+        <input type='checkbox' checked={importNamesFromDraft} onChange={(() => set_importNamesFromDraft(!importNamesFromDraft))} />
+      </div>
+
+      <form style={{ padding: '0 2rem' }} onSubmit={getDraft}>
         <h1>Import Draft from aoe2cm.net</h1>
-        <div style={{display:'flex', flexDirection: 'row'}}>
-          <input type="text" placeholder="aoe2cm.net/" name="aoe2cmDraft" style={{width:'60%'}}/>
+        <div style={{ display: 'flex', flexDirection: 'row' }}>
+          <input type="text" placeholder="aoe2cm.net/" name="aoe2cmDraft" style={{ width: '60%' }} />
           <div className='px-16 w-2/5'>
             <input type="submit" />
           </div>
@@ -194,7 +206,7 @@ export function Aoe4CivDraft() {
 
         <hr />
 
-        <input type="submit" value="Update Team Names" className='py-4 px-32 w-1/3'/>
+        <input type="submit" value="Update Team Names" className='py-4 px-32 w-1/3' />
 
       </form>
     </div>

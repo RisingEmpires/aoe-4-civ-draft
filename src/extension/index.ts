@@ -322,6 +322,18 @@ module.exports = function (nodecg: NodeCG.ServerAPI) {
 			rightPicks.value = _rightPicks;
 
 			//#endregion
+
+			//Set Names 
+			let importNamesFromDraft = nodecg.Replicant('importNamesFromDraft')
+			
+			if(importNamesFromDraft.value == true) {
+				let _leftName = nodecg.Replicant('leftName')
+				let _rightName = nodecg.Replicant('rightName')
+
+				_leftName.value = civDraft.team1.name
+				_rightName.value = civDraft.team2.name
+
+			}
 		}
 
 	})
