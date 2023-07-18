@@ -93,6 +93,26 @@ export function Aoe4CivDraft() {
     set_rightSideIcon(tempIcon)
   }
 
+  const resetDraft = (event: any) => {
+    event.preventDefault();
+    console.log("Resetting Draft")
+
+    set_leftName("")
+    set_rightName("")
+
+    set_leftBans([])
+    set_rightBans([])
+
+    set_leftBansCount(0)
+    set_rightBansCount(0)
+
+    set_leftPicks([{value: "/assets/aoe-4-civ-draft/civs/Random.png", label: "Random"}])
+    set_rightPicks([{value: "/assets/aoe-4-civ-draft/civs/Random.png", label: "Random"}])
+
+    set_leftPicksCount(1)
+    set_rightPicksCount(1)
+  }
+
   return (
     <div>
       <div>
@@ -154,11 +174,14 @@ export function Aoe4CivDraft() {
         </div>
 
         <div className='flex flex-row justify-center w-full'>
-          <hr className='m-8 w-1/3' />
-          <button onClick={swapTeams} className="swapButton w-36" name="swapTeams">
+          <hr className='m-4 w-1/3' />
+          <button onClick={swapTeams} className="swapButton mx-4 px-2 w-36" name="swapTeams">
             Swap Teams
           </button>
-          <hr className='m-8 w-1/3' />
+          <button onClick={resetDraft} className="resetButton mx-4 px-2 w-36" name="swapTeams">
+            Reset Draft
+          </button>
+          <hr className='m-4 w-1/3' />
         </div>
 
         <div className='rightSideWrapper flex flex-row justify-center py-4'>
