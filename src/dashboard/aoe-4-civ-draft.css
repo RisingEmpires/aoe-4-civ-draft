@@ -32,7 +32,7 @@ select {
     box-sizing: border-box;
 }
 
-input[type=submit] {
+.importDraft {
     width: 100%;
     background-color: #4CAF50;
     color: white;
@@ -43,7 +43,7 @@ input[type=submit] {
     cursor: pointer;
 }
 
-input[type=submit]:hover {
+.importDraft {
     background-color: #45a049;
 }
 
@@ -81,13 +81,7 @@ input[type=submit]:hover {
     color: black;
 }
 
-.updateDiv {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.updateDraft {
+input[type=submit],.updateDraft {
     width: 100%;
     background-color: #5e4caf;
     color: white;

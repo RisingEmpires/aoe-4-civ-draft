@@ -41,6 +41,10 @@ export function Aoe4CivDraft() {
   //State of this doesn't matter. We just need it to be updated for useEffect in the graphics to be updated
   const [updateDraft, set_updateDraft] = useReplicant<boolean>('updateDraft', true);
 
+  //Variables to hold the name onChange
+  const [_leftName, set__leftName] = useState<string>("");
+  const [_rightName, set__rightName] = useState<string>("");
+
   // Set the options in the dropdown menu to avaliable civs from /assets/aoe4-civ-draft/civ
   useEffect(() => {
     if (civs.length === 0) return;
@@ -57,8 +61,11 @@ export function Aoe4CivDraft() {
   //@ts-ignore
   const handleSubmit = (event) => {
     event.preventDefault();
+    
     set_leftName(event.target.leftName.value)
     set_rightName(event.target.rightName.value)
+
+    f_updateDraft(null)
   }
 
   //@ts-ignore
@@ -147,7 +154,7 @@ export function Aoe4CivDraft() {
         <div style={{ display: 'flex', flexDirection: 'row' }}>
           <input type="text" placeholder="aoe2cm.net/" name="aoe2cmDraft" style={{ width: '60%' }} />
           <div className='px-16 w-2/5'>
-            <input type="submit" value={"Import Draft"} />
+            <input type="submit" value={"Import Draft"} className='importDraft'/>
           </div>
         </div>
       </form>
@@ -252,10 +259,7 @@ export function Aoe4CivDraft() {
         <hr />
 
         <div className='updateDiv'>
-          <button onClick={f_updateDraft} className="updateDraft w-1/3" name="updateDraft">
-            Update Draft Graphics
-          </button>
-
+          <input type="submit" value="Update Team Names" className='updateDraft w-1/3' />
         </div>
 
       </form>
