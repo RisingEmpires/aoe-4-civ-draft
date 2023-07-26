@@ -17,16 +17,16 @@ export function Aoe4CivDraft() {
 
   // Could probably have 1 array instead of 2 replicants?
   const [leftBans, set_leftBans] = useReplicant<ValueLabelPair[]>('leftBans', [{ value: '', label: '' }]);
-  const [leftBansCount, set_leftBansCount] = useReplicant<number>('leftBansCount', 1);
+  const [leftBansCount, set_leftBansCount] = useReplicant<number>('leftBansCount', 0);
 
   const [leftPicks, set_leftPicks] = useReplicant<ValueLabelPair[]>('leftPicks', [{ value: '', label: '' }]);
-  const [leftPicksCount, set_leftPicksCount] = useReplicant<number>('leftPicksCount', 1);
+  const [leftPicksCount, set_leftPicksCount] = useReplicant<number>('leftPicksCount', 0);
 
   const [rightPicks, set_rightPicks] = useReplicant<ValueLabelPair[]>('rightPicks', [{ value: '', label: '' }]);
-  const [rightPicksCount, set_rightPicksCount] = useReplicant<number>('rightPicksCount', 1);
+  const [rightPicksCount, set_rightPicksCount] = useReplicant<number>('rightPicksCount', 0);
 
   const [rightBans, set_rightBans] = useReplicant<ValueLabelPair[]>('rightBans', [{ value: '', label: '' }]);
-  const [rightBansCount, set_rightBansCount] = useReplicant<number>('rightBansCount', 1);
+  const [rightBansCount, set_rightBansCount] = useReplicant<number>('rightBansCount', 0);
 
   const [leftName, set_leftName] = useReplicant<string>('leftName', '');
   const [rightName, set_rightName] = useReplicant<string>('rightName', '');
@@ -52,7 +52,7 @@ export function Aoe4CivDraft() {
     civs.forEach((element) => {
       let { name } = element;
       name = name.replace(/_/g, ' ');
-      _array.push({ value: element.url, label: name });
+      _array.push({ value: element?.url, label: name });
     });
     _array.sort((a, b) => (a.label > b.label ? 1 : b.label > a.label ? -1 : 0));
     set_options(_array);

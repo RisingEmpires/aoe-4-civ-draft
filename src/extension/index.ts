@@ -48,6 +48,22 @@ let civMap = new Map<string, ValueLabelPair>([
 
 module.exports = function (nodecg: NodeCG.ServerAPI) {
 
+	let leftBans = nodecg.Replicant('leftBans', 'aoe-4-civ-draft', {
+		defaultValue: [{ value: '', label: '' }]
+	})
+
+	let leftPicks = nodecg.Replicant('leftPicks', 'aoe-4-civ-draft', {
+		defaultValue: [{ value: '', label: '' }]
+	})
+
+	let rightBans = nodecg.Replicant('rightBans', 'aoe-4-civ-draft', {
+		defaultValue: [{ value: '', label: '' }]
+	})
+
+	let rightPicks = nodecg.Replicant('rightPicks', 'aoe-4-civ-draft', {
+		defaultValue: [{ value: '', label: '' }]
+	})
+
 	const getDraftInfo = async (draftUrlOrId: string) => {
 		const draftIdInfo = getDraftId(draftUrlOrId)
 		if (!draftIdInfo.isValid) {
@@ -202,7 +218,7 @@ module.exports = function (nodecg: NodeCG.ServerAPI) {
 			// Warchief Club v3 (trial)
 			case 'lWygK':
 				return 'civs'
-			
+
 			// REL S2 Map Draft
 			case 'KGDHa':
 				return 'maps'
@@ -288,7 +304,7 @@ module.exports = function (nodecg: NodeCG.ServerAPI) {
 			let rightBans = nodecg.Replicant('rightBans')
 			rightBans.value = _rightBans
 			//#endregion
-		
+
 
 
 			//#region Set Picks
@@ -328,8 +344,8 @@ module.exports = function (nodecg: NodeCG.ServerAPI) {
 			let updateDraftOnImport = nodecg.Replicant('updateDraftOnImport')
 			let updateDraft = nodecg.Replicant('updateDraft')
 
-			
-			if(importNamesFromDraft.value == true) {
+
+			if (importNamesFromDraft.value == true) {
 				let _leftName = nodecg.Replicant('leftName')
 				let _rightName = nodecg.Replicant('rightName')
 
@@ -337,7 +353,7 @@ module.exports = function (nodecg: NodeCG.ServerAPI) {
 				_rightName.value = civDraft.team2.name
 			}
 
-			if(updateDraftOnImport.value == true) {
+			if (updateDraftOnImport.value == true) {
 				console.log("Updating draft aswell")
 				updateDraft.value = !updateDraft.value
 			}
