@@ -46,6 +46,19 @@ let civMap = new Map<string, ValueLabelPair>([
 	}],
 ])
 
+let aoe2cmCivs = [
+	"aoe4.AbbasidDynasty",
+	"aoe4.Chinese",
+	"aoe4.DelhiSultanate",
+	"aoe4.English",
+	"aoe4.French",
+	"aoe4.HolyRomanEmpire",
+	"aoe4.Malians",
+	"aoe4.Mongols",
+	"aoe4.Ottomans",
+	"aoe4.Rus"
+]
+
 module.exports = function (nodecg: NodeCG.ServerAPI) {
 
 	let leftBans = nodecg.Replicant('leftBans', 'aoe-4-civ-draft', {
@@ -131,7 +144,8 @@ module.exports = function (nodecg: NodeCG.ServerAPI) {
 		const { events, nameHost, nameGuest, preset } = data
 
 		// Add more support as needed, yo
-		const draftType = getDraftType(preset?.presetId)
+		console.log(preset)
+		const draftType = getDraftType(preset)
 		if (!draftType) {
 			return
 		}
@@ -209,19 +223,34 @@ module.exports = function (nodecg: NodeCG.ServerAPI) {
 		}
 	}
 
-	const getDraftType = (presetId: string) => {
-		switch (presetId) {
+	const getDraftType = (preset: string) => {
+
+		//@ts-ignore
+		switch (preset?.presetId) {
 			// RE 2v2 V3
 			case 'memHU':
 			// Warchief Club v3 & LEL
 			case 'byxel':
 			// Warchief Club v3 (trial)
 			case 'lWygK':
+			// Corvinus 2v2
+			case 'ifRMd':
 				return 'civs'
-
-			// REL S2 Map Draft
+			
+				// REL S2 Map Draft
 			case 'KGDHa':
 				return 'maps'
+			// If all doesn't go well, lets find out what it is
+			default: 
+				console.log("Trying to get unknown preset")
+				//@ts-ignore
+				if(aoe2cmCivs.includes(preset.draftOptions[0].name)) {
+					console.log("Found a civ as the option, assuming its a civ draft")
+					return 'civs'
+				} else {
+					console.log("No civ found, assuming its a map draft")
+					return 'maps'
+				}
 		}
 	}
 
