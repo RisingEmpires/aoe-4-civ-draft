@@ -3,7 +3,7 @@ import { useReplicant } from 'use-nodecg';
 import { CivDropdown } from './CivDropdown';
 import type { ValueLabelPair } from '../../types/schemas/index';
 import { NodeCG } from '@nodecg/types/types/nodecg';
-import { Tooltip as ReactTooltip } from "react-tooltip";
+//import { Tooltip as ReactTooltip } from "react-tooltip";
 
 interface DropdownOption {
   value: string;
@@ -42,8 +42,8 @@ export function Aoe4CivDraft() {
   const [updateDraft, set_updateDraft] = useReplicant<boolean>('updateDraft', true);
 
   //Variables to hold the name onChange
-  const [_leftName, set__leftName] = useState<string>("");
-  const [_rightName, set__rightName] = useState<string>("");
+  const [_leftName, set__leftName] = useState(<></>);
+  const [_rightName, set__rightName] = useState(<></>);
 
   // Set the options in the dropdown menu to avaliable civs from /assets/aoe4-civ-draft/civ
   useEffect(() => {
@@ -58,10 +58,16 @@ export function Aoe4CivDraft() {
     set_options(_array);
   }, [civs]);
 
+  useEffect(() => {
+    console.log("rerendering name input")
+    set__leftName(<input type="text" placeholder="Left Side Name" name="leftName" key={leftName} defaultValue={leftName} />)
+    set__rightName(<input type="text" placeholder="Right Side Name" name="rightName" key={rightName} defaultValue={rightName} />)
+  }, [leftName, rightName, updateDraft])
+
   //@ts-ignore
   const handleSubmit = (event) => {
     event.preventDefault();
-    
+
     set_leftName(event.target.leftName.value)
     set_rightName(event.target.rightName.value)
 
@@ -154,7 +160,7 @@ export function Aoe4CivDraft() {
         <div style={{ display: 'flex', flexDirection: 'row' }}>
           <input type="text" placeholder="aoe2cm.net/" name="aoe2cmDraft" style={{ width: '60%' }} />
           <div className='px-16 w-2/5'>
-            <input type="submit" value={"Import Draft"} className='importDraft'/>
+            <input type="submit" value={"Import Draft"} className='importDraft' />
           </div>
         </div>
       </form>
@@ -164,7 +170,7 @@ export function Aoe4CivDraft() {
 
           <div className='px-5'>
             <label className='text-center'>Left Side Name</label>
-            <input type="text" placeholder="Left Side Name" name="leftName" defaultValue={leftName} />
+            {_leftName}
           </div>
 
           <div className='w-1/2 flex flex-col justify-center text-center px-5 self-start'>
@@ -217,7 +223,7 @@ export function Aoe4CivDraft() {
 
           <div className='px-5'>
             <label>Right Side Name</label>
-            <input type="text" placeholder="Right Side Name" name="rightName" defaultValue={rightName} />
+            {_rightName}
           </div>
 
           <div className='w-1/2 flex flex-col justify-center text-center px-5 self-start'>
@@ -259,7 +265,7 @@ export function Aoe4CivDraft() {
         <hr />
 
         <div className='updateDiv'>
-          <input type="submit" value="Update Team Names" className='updateDraft w-1/3' />
+          <input type="submit" value="Update Draft Graphics" className='updateDraft w-1/3' />
         </div>
 
       </form>
