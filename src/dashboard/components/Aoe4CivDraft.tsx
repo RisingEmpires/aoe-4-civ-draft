@@ -82,8 +82,8 @@ export function Aoe4CivDraft() {
     set_leftName(event.target.leftName.value)
     set_rightName(event.target.rightName.value)
 
-    set_leftUnderText('')
-    set_rightUnderText('')
+    set_leftUnderText(event.target.leftUnderText.value)
+    set_rightUnderText(event.target.rightUnderText.value)
 
     f_updateDraft(null)
   }
@@ -260,7 +260,7 @@ export function Aoe4CivDraft() {
             </div>
           </div>
 
-          <div className='flex flex-col pt-32 w-1/6  borderer'>
+          <div className='flex flex-col pt-32 w-1/6 items-center borderer'>
             <button onClick={swapTeams} className="swapButton mx-8 px-2 w-36 h-12" name="swapTeams">
               Swap Teams
             </button>
