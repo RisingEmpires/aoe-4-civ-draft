@@ -236,15 +236,15 @@ module.exports = function (nodecg: NodeCG.ServerAPI) {
 			// Corvinus 2v2
 			case 'ifRMd':
 				return 'civs'
-			
-				// REL S2 Map Draft
+
+			// REL S2 Map Draft
 			case 'KGDHa':
 				return 'maps'
 			// If all doesn't go well, lets find out what it is
-			default: 
+			default:
 				console.log("Trying to get unknown preset")
 				//@ts-ignore
-				if(aoe2cmCivs.includes(preset.draftOptions[0].name)) {
+				if (aoe2cmCivs.includes(preset.draftOptions[0].name)) {
 					console.log("Found a civ as the option, assuming its a civ draft")
 					return 'civs'
 				} else {
@@ -258,6 +258,8 @@ module.exports = function (nodecg: NodeCG.ServerAPI) {
 
 		const civDraft = await getDraftInfo(url)
 
+		let lockBans = nodecg.Replicant('lockBans')
+
 		//@ts-ignore
 		if (!civDraft?.team1?.civs) {
 			console.error('Could not parse civ draft. Could be a bad URL, could be not a civ draft')
@@ -265,76 +267,82 @@ module.exports = function (nodecg: NodeCG.ServerAPI) {
 			return
 		} else {
 			//how to ruin good looking code by making my own :')
-			//#region Set bans and banned count
-			let _leftBans: (ValueLabelPair | undefined)[] = []
-			let _rightBans: (ValueLabelPair | undefined)[] = []
 
-			//Set left side Bans Count & add them to the array
-			let _leftBansCount = 0
-			//Check if the value exists, can happend depending on how the draft
-			if (civDraft.team1?.civs.bans) {
-				let _civMap = klona(civMap)
-				//Add to the count depending on the length
-				_leftBansCount += civDraft.team1?.civs.bans?.length
-				//For each civ that was banned, push it in the format that Dashboard and Graphics support (ValueLabelPair)
-				civDraft.team1?.civs.bans.forEach((element: any, i: string | number) => {
-					_leftBans.push(_civMap.get(element))
-				});
+			//Bans not locked, we shall update!
+			if (lockBans.value == false) {
+
+
+				//#region Set bans and banned count
+				let _leftBans: (ValueLabelPair | undefined)[] = []
+				let _rightBans: (ValueLabelPair | undefined)[] = []
+
+				//Set left side Bans Count & add them to the array
+				let _leftBansCount = 0
+				//Check if the value exists, can happend depending on how the draft
+				if (civDraft.team1?.civs.bans) {
+					let _civMap = klona(civMap)
+					//Add to the count depending on the length
+					_leftBansCount += civDraft.team1?.civs.bans?.length
+					//For each civ that was banned, push it in the format that Dashboard and Graphics support (ValueLabelPair)
+					civDraft.team1?.civs.bans.forEach((element: any, i: string | number) => {
+						_leftBans.push(_civMap.get(element))
+					});
+				}
+				//Check if some civs from the other side was sniped, meaning left side can't play it
+				//At some point we could probably figure out how to pass a proper value so that in the Graphics it's highlighted it was sniped and not banned
+				if (civDraft.team2?.civs.sniped) {
+					//A given object cannot belong to multiple Replicants. So need to do deep clone
+					let _civMap = klona(civMap)
+					//Add to the count depending on length
+					_leftBansCount += civDraft.team2.civs.sniped?.length
+					//For each civ that was sniped on the opponents team, add to the banned array
+					civDraft.team2?.civs.sniped.forEach((element: any, i: string | number) => {
+						_leftBans.push(_civMap.get(element))
+					});
+				}
+
+				console.log("LeftBansCount" + _leftBansCount)
+
+				//Set the replicant depending on the count from above
+				let leftBansCount = nodecg.Replicant('leftBansCount')
+				leftBansCount.value = _leftBansCount;
+
+
+				//Rinse and repeat for right side.
+				//Set right side Bans Count
+				let _rightBansCount = 0
+				if (civDraft.team2?.civs.bans) {
+					let rightBansMap = klona(civMap)
+					_rightBansCount += civDraft.team2?.civs.bans?.length
+					civDraft.team2?.civs.bans.forEach((element: any, i: string | number) => {
+						_rightBans.push(rightBansMap.get(element))
+					});
+				}
+				if (civDraft.team1?.civs.sniped) {
+					let _civMap = klona(civMap)
+					_rightBansCount += civDraft.team1.civs.sniped?.length
+					civDraft.team1?.civs.sniped.forEach((element: any, i: string | number) => {
+						_rightBans.push(_civMap.get(element))
+					});
+				}
+
+				console.log("RightBansCount" + _rightBansCount)
+
+				let rightBansCount = nodecg.Replicant('rightBansCount')
+				rightBansCount.value = _rightBansCount
+
+
+				//Set left bans
+				let leftBans = nodecg.Replicant('leftBans')
+				leftBans.value = _leftBans
+
+				//Set right bans
+				let rightBans = nodecg.Replicant('rightBans')
+				rightBans.value = _rightBans
+				//#endregion
+
+
 			}
-			//Check if some civs from the other side was sniped, meaning left side can't play it
-			//At some point we could probably figure out how to pass a proper value so that in the Graphics it's highlighted it was sniped and not banned
-			if (civDraft.team2?.civs.sniped) {
-				//A given object cannot belong to multiple Replicants. So need to do deep clone
-				let _civMap = klona(civMap)
-				//Add to the count depending on length
-				_leftBansCount += civDraft.team2.civs.sniped?.length
-				//For each civ that was sniped on the opponents team, add to the banned array
-				civDraft.team2?.civs.sniped.forEach((element: any, i: string | number) => {
-					_leftBans.push(_civMap.get(element))
-				});
-			}
-
-			console.log("LeftBansCount" + _leftBansCount)
-
-			//Set the replicant depending on the count from above
-			let leftBansCount = nodecg.Replicant('leftBansCount')
-			leftBansCount.value = _leftBansCount;
-
-
-			//Rinse and repeat for right side.
-			//Set right side Bans Count
-			let _rightBansCount = 0
-			if (civDraft.team2?.civs.bans) {
-				let rightBansMap = klona(civMap)
-				_rightBansCount += civDraft.team2?.civs.bans?.length
-				civDraft.team2?.civs.bans.forEach((element: any, i: string | number) => {
-					_rightBans.push(rightBansMap.get(element))
-				});
-			}
-			if (civDraft.team1?.civs.sniped) {
-				let _civMap = klona(civMap)
-				_rightBansCount += civDraft.team1.civs.sniped?.length
-				civDraft.team1?.civs.sniped.forEach((element: any, i: string | number) => {
-					_rightBans.push(_civMap.get(element))
-				});
-			}
-
-			console.log("RightBansCount" + _rightBansCount)
-
-			let rightBansCount = nodecg.Replicant('rightBansCount')
-			rightBansCount.value = _rightBansCount
-
-
-			//Set left bans
-			let leftBans = nodecg.Replicant('leftBans')
-			leftBans.value = _leftBans
-
-			//Set right bans
-			let rightBans = nodecg.Replicant('rightBans')
-			rightBans.value = _rightBans
-			//#endregion
-
-
 
 			//#region Set Picks
 			let _leftPicks: (ValueLabelPair | undefined)[] = []
