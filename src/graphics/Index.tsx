@@ -5,6 +5,9 @@ import type { ValueLabelPair } from '../types/schemas/index';
 import { CivDisplay } from './CivDisplay';
 
 export function Index() {
+
+	const [theme, set_theme] = useReplicant<{ value: string; label: string; }>('theme', { value: '../../../assets/nodecg-themer/themes/default.css', label: 'default' }, { namespace: 'nodecg-themer' });
+
 	// Could probably have 1 array instead of 2 replicants?
 	const [leftBans, set_leftBans] = useReplicant<ValueLabelPair[]>('leftBans', []);
 	const [leftBansCount, set_leftBansCount] = useReplicant<number>('leftBansCount', 1);
@@ -28,39 +31,47 @@ export function Index() {
 	const [graphics, set_graphics] = useState(<></>)
 	useEffect(() => {
 		set_graphics(<>
-			<h1 className='leftName'>{leftName}</h1>
-			<h1 className='leftUnderText'>{leftUnderText}</h1>
-			<div className='leftBans' style={{}}>
+			<h1 className='draft-leftName'>{leftName}</h1>
+			<h1 className='draft-leftUnderText'>{leftUnderText}</h1>
+			<div className='draft-leftBans' style={{}}>
 				{new Array(leftBansCount).fill(undefined).map((_, i) => (
 					<CivDisplay civ={leftBans[i]} banned={true} />
 				))}
 			</div>
 
-			<div className='leftPicks'>
+			<div className='draft-leftPicks'>
 				{new Array(leftPicksCount).fill(undefined).map((_, i) => (
 					<CivDisplay civ={leftPicks[i]} banned={false} />
 				))}
 			</div>
 
-			<h1 className='rightName'>{rightName}</h1>
-			<h1 className='rightUnderText'>{rightUnderText}</h1>
-			<div className='rightPicks'>
+			<h1 className='draft-rightName'>{rightName}</h1>
+			<h1 className='draft-rightUnderText'>{rightUnderText}</h1>
+			<div className='draft-rightPicks'>
 				{new Array(rightPicksCount).fill(undefined).map((_, i) => (
 					<CivDisplay civ={rightPicks[i]} banned={false} />
 				))}
 			</div>
 
-			<div className='rightBans' style={{}}>
+			<div className='draft-rightBans' style={{}}>
 				{new Array(rightBansCount).fill(undefined).map((_, i) => (
 					<CivDisplay civ={rightBans[i]} banned={true} />
 				))}
 			</div></>)
-
-
 	}, [updateDraft])
+
+	const [themeDiv, set_themeDiv] = useState(<></>)
+
+	useEffect(() => {
+		console.log(theme)
+		if (!theme) return;
+		console.log(theme)
+		set_themeDiv(<link rel='stylesheet' type='text/css' href={theme.value} />)
+	}, [theme])
 
 	return (
 		<>
+			{themeDiv}
 			{graphics}
 		</>
 	);
