@@ -41,7 +41,7 @@ export function Index() {
 
 			<div className='draft-leftPicks'>
 				{new Array(leftPicksCount).fill(undefined).map((_, i) => (
-					<CivDisplay civ={leftPicks[i]} banned={false} />
+					<CivDisplay civ={leftPicks[i]} banned={false} displayName/>
 				))}
 			</div>
 
@@ -49,13 +49,13 @@ export function Index() {
 			<h1 className='draft-rightUnderText'>{rightUnderText}</h1>
 			<div className='draft-rightPicks'>
 				{new Array(rightPicksCount).fill(undefined).map((_, i) => (
-					<CivDisplay civ={rightPicks[i]} banned={false} />
+					<CivDisplay civ={rightPicks[i]} banned={false} displayName/>
 				))}
 			</div>
 
 			<div className='draft-rightBans' style={{}}>
 				{new Array(rightBansCount).fill(undefined).map((_, i) => (
-					<CivDisplay civ={rightBans[i]} banned={true} />
+					<CivDisplay civ={rightBans[i]} banned={true}/>
 				))}
 			</div></>)
 	}, [updateDraft])

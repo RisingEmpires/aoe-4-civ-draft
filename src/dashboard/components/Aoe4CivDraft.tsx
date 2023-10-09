@@ -104,6 +104,10 @@ export function Aoe4CivDraft() {
     set_leftName(rightName)
     set_rightName(tempName)
 
+    let tempUnderText = leftUnderText
+    set_leftUnderText(rightUnderText)
+    set_rightUnderText(tempUnderText)
+
     let tempBans = leftBans
     set_leftBans(rightBans)
     set_rightBans(tempBans)
