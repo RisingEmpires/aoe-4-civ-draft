@@ -70,7 +70,7 @@ let civMap = new Map<string, ValueLabelPair>([
 		"value": "/assets/aoe-4-civ-draft/civs/Order_Of_The_Dragon.png",
 		"label": "Order of The Dragon"
 	}],
-	['ZhuXisLegacy', {
+	['ZhuXiLegacy', {
 		"value": "/assets/aoe-4-civ-draft/civs/Zhu_Xi_Legacy.png",
 		"label": "Zhu Xi's Legacy"
 	}],
@@ -315,8 +315,8 @@ module.exports = function (nodecg: NodeCG.ServerAPI) {
 
 
 				//#region Set bans and banned count
-				let _leftBans: (ValueLabelPair | undefined)[] = []
-				let _rightBans: (ValueLabelPair | undefined)[] = []
+				let _leftBans: (DropdownOption | undefined)[] = []
+				let _rightBans: (DropdownOption | undefined)[] = []
 
 				//Set left side Bans Count & add them to the array
 				let _leftBansCount = 0
@@ -412,6 +412,10 @@ module.exports = function (nodecg: NodeCG.ServerAPI) {
 				console.log(element)
 				_rightPicks.push(_civMap.get(element))
 			})
+
+			console.log(`LeftPicks: ${JSON.stringify(_leftPicks)}`)
+			console.log(`RightPicks: ${JSON.stringify(_rightPicks)}`)
+
 
 			leftPicks.value = _leftPicks;
 			rightPicks.value = _rightPicks;
