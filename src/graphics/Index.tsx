@@ -1,24 +1,34 @@
 import React, { useEffect, useState } from 'react';
 import type { NodeCG } from '@nodecg/types/types/nodecg';
 import { useReplicant } from 'use-nodecg';
-import type { ValueLabelPair } from '../types/schemas/index';
 import { CivDisplay } from './CivDisplay';
+
+interface ValueLabelPair {
+	value: string;
+	label: string;
+}
+
+interface DropdownOption {
+	value: string;
+	label: string;
+	picked: boolean;
+  }
 
 export function Index() {
 
 	const [theme, set_theme] = useReplicant<{ value: string; label: string; }>('theme', { value: '../../../assets/nodecg-themer/themes/default.css', label: 'default' }, { namespace: 'nodecg-themer' });
 
 	// Could probably have 1 array instead of 2 replicants?
-	const [leftBans, set_leftBans] = useReplicant<ValueLabelPair[]>('leftBans', []);
+	const [leftBans, set_leftBans] = useReplicant<DropdownOption[]>('leftBans', [{ value: "/assets/aoe-4-civ-draft/civs/Random.png", label: "Random", picked: false }]);
 	const [leftBansCount, set_leftBansCount] = useReplicant<number>('leftBansCount', 1);
 
-	const [leftPicks, set_leftPicks] = useReplicant<ValueLabelPair[]>('leftPicks', []);
+	const [leftPicks, set_leftPicks] = useReplicant<DropdownOption[]>('leftPicks', [{ value: "/assets/aoe-4-civ-draft/civs/Random.png", label: "Random", picked: false }]);
 	const [leftPicksCount, set_leftPicksCount] = useReplicant<number>('leftPicksCount', 1);
 
-	const [rightPicks, set_rightPicks] = useReplicant<ValueLabelPair[]>('rightPicks', []);
+	const [rightPicks, set_rightPicks] = useReplicant<DropdownOption[]>('rightPicks', [{ value: "/assets/aoe-4-civ-draft/civs/Random.png", label: "Random", picked: false }]);
 	const [rightPicksCount, set_rightPicksCount] = useReplicant<number>('rightPicksCount', 1);
 
-	const [rightBans, set_rightBans] = useReplicant<ValueLabelPair[]>('rightBans', []);
+	const [rightBans, set_rightBans] = useReplicant<DropdownOption[]>('rightBans', [{ value: "/assets/aoe-4-civ-draft/civs/Random.png", label: "Random", picked: false }]);
 	const [rightBansCount, set_rightBansCount] = useReplicant<number>('rightBansCount', 1);
 
 	const [leftName, set_leftName] = useReplicant<string>('leftName', '');
@@ -41,7 +51,7 @@ export function Index() {
 
 			<div className='draft-leftPicks'>
 				{new Array(leftPicksCount).fill(undefined).map((_, i) => (
-					<CivDisplay civ={leftPicks[i]} banned={false} displayName/>
+					<CivDisplay civ={leftPicks[i]} picked={leftPicks[i]?.picked} banned={false} displayName/>
 				))}
 			</div>
 
@@ -49,7 +59,7 @@ export function Index() {
 			<h1 className='draft-rightUnderText'>{rightUnderText}</h1>
 			<div className='draft-rightPicks'>
 				{new Array(rightPicksCount).fill(undefined).map((_, i) => (
-					<CivDisplay civ={rightPicks[i]} banned={false} displayName/>
+					<CivDisplay civ={rightPicks[i]} picked={rightPicks[i]?.picked} banned={false} displayName/>
 				))}
 			</div>
 

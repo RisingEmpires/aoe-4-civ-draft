@@ -10,4 +10,5 @@ export type RightBans = ValueLabelPair[];
 export interface ValueLabelPair {
 	value: string;
 	label: string;
+	[k: string]: unknown;
 }

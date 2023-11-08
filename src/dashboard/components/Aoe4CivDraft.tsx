@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { useReplicant } from 'use-nodecg';
 import { CivDropdown } from './CivDropdown';
-import type { ValueLabelPair } from '../../types/schemas/index';
 import { NodeCG } from '@nodecg/types/types/nodecg';
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import { TECollapse, TERipple } from "tw-elements-react";
 
+interface ValueLabelPair {
+	value: string;
+	label: string;
+}
+
 interface DropdownOption {
   value: string;
   label: string;
+  picked: boolean;
 }
 
 export function Aoe4CivDraft() {
@@ -16,20 +21,21 @@ export function Aoe4CivDraft() {
   const [showSettings, set_showSettings] = useState(false);
   const toggleShowSettings = () => set_showSettings(!showSettings);
 
-  const [options, set_options] = useState<ValueLabelPair[]>([]);
+  //@ts-ignore
+  const [options, set_options] = useState([]);
   const [civs, set_civs] = useReplicant<NodeCG.AssetFile[]>('assets:civs', []);
 
   // Could probably have 1 array instead of 2 replicants?
-  const [leftBans, set_leftBans] = useReplicant<ValueLabelPair[]>('leftBans', [{ value: '', label: '' }]);
+  const [leftBans, set_leftBans] = useReplicant<DropdownOption[]>('leftBans', [{ value: '', label: '', picked: false }]);
   const [leftBansCount, set_leftBansCount] = useReplicant<number>('leftBansCount', 0);
 
-  const [leftPicks, set_leftPicks] = useReplicant<ValueLabelPair[]>('leftPicks', [{ value: '', label: '' }]);
+  const [leftPicks, set_leftPicks] = useReplicant<DropdownOption[]>('leftPicks', [{ value: '', label: '', picked: false }]);
   const [leftPicksCount, set_leftPicksCount] = useReplicant<number>('leftPicksCount', 0);
 
-  const [rightPicks, set_rightPicks] = useReplicant<ValueLabelPair[]>('rightPicks', [{ value: '', label: '' }]);
+  const [rightPicks, set_rightPicks] = useReplicant<DropdownOption[]>('rightPicks', [{ value: '', label: '', picked: false }]);
   const [rightPicksCount, set_rightPicksCount] = useReplicant<number>('rightPicksCount', 0);
 
-  const [rightBans, set_rightBans] = useReplicant<ValueLabelPair[]>('rightBans', [{ value: '', label: '' }]);
+  const [rightBans, set_rightBans] = useReplicant<DropdownOption[]>('rightBans', [{ value: '', label: '', picked: false }]);
   const [rightBansCount, set_rightBansCount] = useReplicant<number>('rightBansCount', 0);
 
   const [leftName, set_leftName] = useReplicant<string>('leftName', '');
@@ -38,8 +44,8 @@ export function Aoe4CivDraft() {
   const [rightUnderText, set_rightUnderText] = useReplicant<string>('rightUnderText', '');
 
   //Used if you have the Aoe-4-team-games
-  const [leftSideIcon, set_leftSideIcon] = useReplicant<DropdownOption>('leftSideIcon', { value: '', label: '' }, { namespace: 'aoe-4-team-games' });
-  const [rightSideIcon, set_rightSideIcon] = useReplicant<DropdownOption>('rightSideIcon', { value: '', label: '' }, { namespace: 'aoe-4-team-games' });
+  const [leftSideIcon, set_leftSideIcon] = useReplicant<ValueLabelPair>('leftSideIcon', { value: '', label: '' }, { namespace: 'aoe-4-team-games' });
+  const [rightSideIcon, set_rightSideIcon] = useReplicant<ValueLabelPair>('rightSideIcon', { value: '', label: '' }, { namespace: 'aoe-4-team-games' });
 
   const [importNamesFromDraft, set_importNamesFromDraft] = useReplicant<boolean>('importNamesFromDraft', true);
   const [updateDraftOnImport, set_updateDraftOnImport] = useReplicant<boolean>('updateDraftOnImport', true);
@@ -61,8 +67,10 @@ export function Aoe4CivDraft() {
     civs.forEach((element) => {
       let { name } = element;
       name = name.replace(/_/g, ' ');
+      //@ts-ignore
       _array.push({ value: element?.url, label: name });
     });
+    //@ts-ignore
     _array.sort((a, b) => (a.label > b.label ? 1 : b.label > a.label ? -1 : 0));
     set_options(_array);
   }, [civs]);
@@ -147,8 +155,8 @@ export function Aoe4CivDraft() {
     }
 
 
-    set_leftPicks([{ value: "/assets/aoe-4-civ-draft/civs/Random.png", label: "Random" }])
-    set_rightPicks([{ value: "/assets/aoe-4-civ-draft/civs/Random.png", label: "Random" }])
+    set_leftPicks([{ value: "/assets/aoe-4-civ-draft/civs/Random.png", label: "Random", picked: false }])
+    set_rightPicks([{ value: "/assets/aoe-4-civ-draft/civs/Random.png", label: "Random", picked: false }])
 
     set_leftPicksCount(1)
     set_rightPicksCount(1)
@@ -241,7 +249,7 @@ export function Aoe4CivDraft() {
                   }}
                 />
                 {new Array(leftBansCount).fill(undefined).map((_, i) => (
-                  <CivDropdown key={i + 'lb'} civs={options} target={i} replicant={'leftBans'} value={leftBans[i]} />
+                  <CivDropdown key={i + 'lb'} civs={options} target={i} replicant={'leftBans'} value={leftBans} />
                 ))}
               </div>
 
@@ -258,7 +266,7 @@ export function Aoe4CivDraft() {
                   }}
                 />
                 {new Array(leftPicksCount).fill(undefined).map((_, i) => (
-                  <CivDropdown key={i + 'lp'} civs={options} target={i} replicant={'leftPicks'} value={leftPicks[i]} />
+                  <CivDropdown key={i + 'lp'} civs={options} target={i} replicant={'leftPicks'} value={leftPicks} />
                 ))}
               </div>
             </div>
@@ -299,7 +307,7 @@ export function Aoe4CivDraft() {
                   }}
                 />
                 {new Array(rightBansCount).fill(undefined).map((_, i) => (
-                  <CivDropdown key={i + 'rb'} civs={options} target={i} replicant={'rightBans'} value={rightBans[i]} />
+                  <CivDropdown key={i + 'rb'} civs={options} target={i} replicant={'rightBans'} value={rightBans} />
                 ))}
               </div>
 
@@ -316,7 +324,7 @@ export function Aoe4CivDraft() {
                   }}
                 />
                 {new Array(rightPicksCount).fill(undefined).map((_, i) => (
-                  <CivDropdown key={i + 'rp'} civs={options} target={i} replicant={'rightPicks'} value={rightPicks[i]} />
+                  <CivDropdown key={i + 'rp'} civs={options} target={i} replicant={'rightPicks'} value={rightPicks} />
                 ))}
               </div>
 

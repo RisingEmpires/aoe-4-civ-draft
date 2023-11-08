@@ -1,6 +1,16 @@
 import type NodeCG from '@nodecg/types';
-import type { ValueLabelPair } from '../types/schemas/index';
 import { klona } from 'klona';
+
+interface DropdownOption {
+	value: string;
+	label: string;
+	picked?: boolean;
+}
+
+interface ValueLabelPair {
+	value: string;
+	label: string;
+}
 
 //Convert from simple name to ValueLabelPair for use in Dashboard and Graphics
 let civMap = new Map<string, ValueLabelPair>([
@@ -44,6 +54,31 @@ let civMap = new Map<string, ValueLabelPair>([
 		"value": "/assets/aoe-4-civ-draft/civs/Rus.png",
 		"label": "Rus"
 	}],
+	['Byzantines', {
+		"value": "/assets/aoe-4-civ-draft/civs/Byzantines.png",
+		"label": "Byzantines"
+	}],
+	['Japanese', {
+		"value": "/assets/aoe-4-civ-draft/civs/Japanese.png",
+		"label": "Japanese"
+	}],
+	['Ayyubids', {
+		"value": "/assets/aoe-4-civ-draft/civs/Ayyubids.png",
+		"label": "Ayyubids"
+	}],
+	['OrderOfTheDragon', {
+		"value": "/assets/aoe-4-civ-draft/civs/Order_Of_The_Dragon.png",
+		"label": "Order of The Dragon"
+	}],
+	['ZhuXisLegacy', {
+		"value": "/assets/aoe-4-civ-draft/civs/Zhu_Xi_Legacy.png",
+		"label": "Zhu Xi's Legacy"
+	}],
+	['JeanneDArc', {
+		"value": "/assets/aoe-4-civ-draft/civs/Jeanne_D_Arc.png",
+		"label": "Jeanne d'Arc"
+	}],
+
 ])
 
 let aoe2cmCivs = [
@@ -56,25 +91,32 @@ let aoe2cmCivs = [
 	"aoe4.Malians",
 	"aoe4.Mongols",
 	"aoe4.Ottomans",
-	"aoe4.Rus"
+	"aoe4.Rus",
+	//These might change
+	"aoe4.Byzantines",
+	"aoe4.Japanese",
+	"aoe4.Ayyubids",
+	"aoe4.JeanneDArc",
+	"aoe4.ZhuXiLegacy",
+	"aoe4.OrderOfTheDragon",
 ]
 
 module.exports = function (nodecg: NodeCG.ServerAPI) {
 
 	let leftBans = nodecg.Replicant('leftBans', 'aoe-4-civ-draft', {
-		defaultValue: [{ value: '', label: '' }]
+		defaultValue: [{ value: '', label: '', picked: false }]
 	})
 
 	let leftPicks = nodecg.Replicant('leftPicks', 'aoe-4-civ-draft', {
-		defaultValue: [{ value: '', label: '' }]
+		defaultValue: [{ value: '', label: '', picked: false }]
 	})
 
 	let rightBans = nodecg.Replicant('rightBans', 'aoe-4-civ-draft', {
-		defaultValue: [{ value: '', label: '' }]
+		defaultValue: [{ value: '', label: '', picked: false }]
 	})
 
 	let rightPicks = nodecg.Replicant('rightPicks', 'aoe-4-civ-draft', {
-		defaultValue: [{ value: '', label: '' }]
+		defaultValue: [{ value: '', label: '', picked: false }]
 	})
 
 	const getDraftInfo = async (draftUrlOrId: string) => {
@@ -345,8 +387,8 @@ module.exports = function (nodecg: NodeCG.ServerAPI) {
 			}
 
 			//#region Set Picks
-			let _leftPicks: (ValueLabelPair | undefined)[] = []
-			let _rightPicks: (ValueLabelPair | undefined)[] = []
+			let _leftPicks: (DropdownOption | undefined)[] = []
+			let _rightPicks: (DropdownOption | undefined)[] = []
 
 			//We can safely assume some civs were picked because if not.. then well.. ???
 			let leftPicksCount = nodecg.Replicant('leftPicksCount')

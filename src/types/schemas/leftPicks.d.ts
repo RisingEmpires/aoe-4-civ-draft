@@ -10,4 +10,5 @@ export type LeftPicks = ValueLabelPair[];
 export interface ValueLabelPair {
 	value: string;
 	label: string;
+	[k: string]: unknown;
 }

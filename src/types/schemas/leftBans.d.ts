@@ -10,4 +10,5 @@ export type LeftBans = ValueLabelPair[];
 export interface ValueLabelPair {
 	value: string;
 	label: string;
+	[k: string]: unknown;
 }
