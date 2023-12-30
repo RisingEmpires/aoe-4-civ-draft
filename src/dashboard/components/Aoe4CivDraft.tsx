@@ -161,6 +161,8 @@ export function Aoe4CivDraft() {
     set_leftPicksCount(1)
     set_rightPicksCount(1)
 
+    nodecg.sendMessage('resetDraft')
+
     f_updateDraft(null)
   }
 
@@ -258,7 +260,7 @@ export function Aoe4CivDraft() {
                 <input
                   className=' m-auto text-center'
                   type="number"
-                  min={1}
+                  min={0}
                   max={9}
                   value={leftPicksCount ?? 0}
                   onChange={(event) => {
@@ -316,7 +318,7 @@ export function Aoe4CivDraft() {
                 <input
                   className='m-auto text-center'
                   type="number"
-                  min={1}
+                  min={0}
                   max={9}
                   value={rightPicksCount ?? 0}
                   onChange={(event) => {
